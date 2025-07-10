@@ -6,50 +6,25 @@
   <style>
     body { margin: 0; font-family: sans-serif; background: #f0f2f5; }
     #controls {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: #fff;
-      padding: 16px;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      position: absolute; top: 10px; left: 10px;
+      background: #fff; padding: 16px; border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2); z-index: 10;
       max-width: 300px;
-      z-index: 10;
     }
     #controls label, #controls select, #controls input, #controls button {
-      display: block;
-      width: 100%;
-      margin-bottom: 8px;
-      font-size: 14px;
+      display: block; width: 100%; margin-bottom: 8px; font-size: 14px;
     }
-    #controls input[type=color] {
-      height: 30px;
-      padding: 2px;
-    }
+    #controls input[type=color] { height: 30px; padding: 2px; }
     #controls button {
-      background: #0078d4;
-      color: #fff;
-      border: none;
-      padding: 10px;
-      border-radius: 4px;
-      cursor: pointer;
+      background: #0078d4; color: #fff; border: none;
+      padding: 10px; border-radius: 4px; cursor: pointer;
     }
-    #controls button:hover {
-      background: #005fa3;
-    }
+    #controls button:hover { background: #005fa3; }
     #json {
-      display: none;
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      background: #eee;
-      padding: 10px;
-      font-size: 12px;
-      border-radius: 8px;
-      white-space: pre-wrap;
-      max-height: 200px;
-      overflow-y: auto;
+      display: none; position: absolute; bottom: 10px; left: 10px; right: 10px;
+      background: #eee; padding: 10px; font-size: 12px;
+      border-radius: 8px; white-space: pre-wrap;
+      max-height: 200px; overflow-y: auto;
     }
   </style>
   <script src="https://cdn.jsdelivr.net/npm/three@0.153.0/build/three.min.js"></script>
@@ -101,7 +76,7 @@
     light.position.set(5, 5, 5);
     scene.add(light);
 
-    let shapeMesh;
+    let shapeMesh; // ✅ declared properly
 
     function generateShape() {
       if (shapeMesh) scene.remove(shapeMesh);
@@ -135,7 +110,7 @@
     }
 
     function updateJSON() {
-      const json = shapeMesh.toJSON();
+      const json = shapeMesh ? shapeMesh.toJSON() : {};
       document.getElementById("json").textContent = JSON.stringify(json, null, 2);
     }
 
@@ -151,7 +126,9 @@
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
         link.download = 'shape.glb';
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
       }, { binary: true });
     }
 
@@ -166,3 +143,4 @@
   </script>
 </body>
 </html>
+
